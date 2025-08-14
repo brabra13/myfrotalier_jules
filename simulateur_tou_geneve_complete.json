@@ -1,0 +1,217 @@
+{
+  "metadata": {
+    "version": "2025",
+    "source": [
+      "Administration Fiscale Cantonale Genève",
+      "AFC - Administration Fédérale des Contributions",
+      "Réforme fiscale 2025 GE"
+    ],
+    "description": "Paramètres fiscaux 2025 pour simulateur TOU Genève (ICC + IFD)"
+  },
+  "cotisations_sociales": {
+    "description": "Taux de cotisations sociales obligatoires pour Genève 2025",
+    "source": "Office cantonal des assurances sociales (OCAS) - Genève",
+    "avs": {
+      "description": "Assurance-vieillesse et survivants",
+      "taux_employe": 0.0435,
+      "taux_employeur": 0.0435,
+      "plafond_salaire": null,
+      "obligatoire": true
+    },
+    "ai": {
+      "description": "Assurance-invalidité",
+      "taux_employe": 0.007,
+      "taux_employeur": 0.007,
+      "plafond_salaire": null,
+      "obligatoire": true
+    },
+    "apg": {
+      "description": "Allocations pour perte de gain (maternité/paternité)",
+      "taux_employe": 0.0025,
+      "taux_employeur": 0.0025,
+      "plafond_salaire": null,
+      "obligatoire": true
+    },
+    "ac": {
+      "description": "Assurance-chômage",
+      "taux_employe": 0.011,
+      "taux_employeur": 0.011,
+      "plafond_salaire": 148200,
+      "obligatoire": true
+    },
+    "af": {
+      "description": "Allocations familiales",
+      "taux_employe": 0.0,
+      "taux_employeur": 0.0225,
+      "plafond_salaire": null,
+      "obligatoire": true
+    },
+    "amat": {
+      "description": "Allocation maternité cantonale (Genève)",
+      "taux_employe": 0.00032,
+      "taux_employeur": 0.00032,
+      "plafond_salaire": null,
+      "obligatoire": true,
+      "canton_specifique": "Genève"
+    },
+    "cpe": {
+      "description": "Contribution petite enfance (Genève)",
+      "taux_employe": 0.0,
+      "taux_employeur": 0.0007,
+      "plafond_salaire": null,
+      "obligatoire": true,
+      "canton_specifique": "Genève"
+    },
+    "lfp": {
+      "description": "Loi sur la formation professionnelle",
+      "taux_employe": 0.0,
+      "taux_employeur_min": 0.0003,
+      "taux_employeur_max": 0.0008,
+      "plafond_salaire": null,
+      "obligatoire": true,
+      "note": "Taux dégressif selon la masse salariale"
+    },
+    "pilier2": {
+      "description": "Prévoyance professionnelle (2ème pilier)",
+      "taux_employe_moyen": 0.06,
+      "taux_employeur_moyen": 0.06,
+      "plafond_cotisation_annuelle": 54432,
+      "obligatoire": true,
+      "note": "Taux variable selon l'âge et la caisse de pension"
+    },
+    "aanp": {
+      "description": "Assurance accidents non professionnels",
+      "taux_employe": 0.01,
+      "taux_employeur": 0.0,
+      "plafond_cotisation_annuelle": 1482,
+      "obligatoire": true
+    }
+  },
+  "icc_geneve": {
+    "bareme": [
+      { "min": 0, "max": 18479, "taux": 0.0, "cumul": 0 },
+      { "min": 18480, "max": 22264, "taux": 0.08, "cumul": 0 },
+      { "min": 22265, "max": 24491, "taux": 0.09, "cumul": 302.80 },
+      { "min": 24492, "max": 26717, "taux": 0.10, "cumul": 503.25 },
+      { "min": 26718, "max": 28943, "taux": 0.11, "cumul": 725.85 },
+      { "min": 28944, "max": 34509, "taux": 0.12, "cumul": 970.70 },
+      { "min": 34510, "max": 38962, "taux": 0.13, "cumul": 1638.60 },
+      { "min": 38963, "max": 43416, "taux": 0.14, "cumul": 2217.50 },
+      { "min": 43417, "max": 47868, "taux": 0.145, "cumul": 2841.05 },
+      { "min": 47869, "max": 76811, "taux": 0.15, "cumul": 3486.60 },
+      { "min": 76812, "max": 103842, "taux": 0.16, "cumul": 7999.35 },
+      { "min": 103843, "max": 129874, "taux": 0.17, "cumul": 12217.87 },
+      { "min": 129875, "max": 155904, "taux": 0.175, "cumul": 16773.88 },
+      { "min": 155905, "max": 259847, "taux": 0.18, "cumul": 21329.89 },
+      { "min": 259848, "max": 363789, "taux": 0.185, "cumul": 39724.34 },
+      { "min": 363790, "max": 467732, "taux": 0.1875, "cumul": 58807.84 },
+      { "min": 467733, "max": 643435, "taux": 0.19, "cumul": 77955.31 },
+      { "min": 643436, "max": 10000000, "taux": 0.19, "cumul": 112274.21 }
+    ],
+    "calcul": {
+      "reduction_base": 0.12,
+      "centimes_cantonaux": 0.475,
+      "reduction_centimes_cantonaux": 0.12,
+      "centime_aide_domicile": 0.01,
+      "part_priviligiee": { "domicile": 0.8, "travail": 0.2 }
+    },
+    "splitting": {
+      "couple": 0.5,
+      "famille_monoparentale": 0.5,
+      "garde_alternee": 0.5556
+    },
+    "centimes_additionnels": {
+      "Ville de Genève": 45.49,
+      "Carouge": 40,
+      "Lancy": 47,
+      "Vernier": 50,
+      "Meyrin": 42,
+      "Onex": 50.5,
+      "Thônex": 44,
+      "Grand-Saconnex": 44,
+      "Plan-les-Ouates": 35,
+      "Chêne-Bougeries": 32,
+      "Bernex": 48,
+      "Aire-la-Ville": 50,
+      "Anières": 31,
+      "Avully": 51,
+      "Avusy": 50,
+      "Bardonnex": 43,
+      "Bellevue": 39,
+      "Céligny": 33,
+      "Chancy": 51,
+      "Chêne-Bourg": 46,
+      "Choulex": 40,
+      "Collex-Bossy": 46,
+      "Collonge-Bellerive": 28,
+      "Cologny": 25,
+      "Confignon": 46,
+      "Corsier": 30,
+      "Dardagny": 48,
+      "Genthod": 25,
+      "Gy": 46,
+      "Hermance": 42,
+      "Jussy": 41,
+      "Laconnex": 44,
+      "Meinier": 42,
+      "Perly-Certoux": 43,
+      "Pregny-Chambésy": 32,
+      "Presinge": 40,
+      "Puplinge": 49,
+      "Russin": 39,
+      "Satigny": 39,
+      "Soral": 44,
+      "Troinex": 40,
+      "Vandœuvres": 27,
+      "Versoix": 45.5,
+      "Veyrier": 37
+    }
+  },
+  "ifd": {
+    "bareme": {
+      "celibataire": [
+        { "min": 0, "max": 14700, "taux": 0.0, "cumul": 0 },
+        { "min": 14701, "max": 31600, "taux": 0.77, "cumul": 0 },
+        { "min": 31601, "max": 41400, "taux": 0.88, "cumul": 1308 },
+        { "min": 41401, "max": 55400, "taux": 2.64, "cumul": 1960 },
+        { "min": 55401, "max": 72800, "taux": 2.97, "cumul": 5664 },
+        { "min": 72801, "max": 104900, "taux": 5.94, "cumul": 10711 },
+        { "min": 104901, "max": 10000000, "taux": 11.5, "cumul": 29757 }
+      ],
+      "couple": [
+        { "min": 0, "max": 28700, "taux": 0.0, "cumul": 0 },
+        { "min": 28701, "max": 50900, "taux": 1.0, "cumul": 0 },
+        { "min": 50901, "max": 72000, "taux": 2.0, "cumul": 2220 },
+        { "min": 72001, "max": 79000, "taux": 3.0, "cumul": 6460 },
+        { "min": 79001, "max": 103600, "taux": 4.0, "cumul": 8570 },
+        { "min": 103601, "max": 134600, "taux": 6.0, "cumul": 18250 },
+        { "min": 134601, "max": 10000000, "taux": 11.5, "cumul": 36480 }
+      ]
+    },
+    "deductions": {
+      "frais_pro_forfait": { "taux": 0.03, "min": 2000, "max": 4000 },
+      "familiales": {
+        "par_enfant": 6800,
+        "reduction_impot_enfant": 263,
+        "couple": 2800,
+        "garde_enfant_max": 25800
+      },
+      "autres": {
+        "formation_continue_max": 13000,
+        "prime_assurance_avec_2e_3a": 5550,
+        "prime_assurance_sans_2e_3a": 1800
+      }
+    }
+  },
+  "deductions_reelles": {
+    "frais_transport": "Coût réel abonnement ou kilométrique, justificatif requis",
+    "frais_repas": "Montant réel sur justificatifs si hors domicile",
+    "equipements": "Matériel professionnel, formation continue hors forfait",
+    "frais_medicaux": "Au-delà de 5% du revenu net",
+    "immobilier": {
+      "forfait_batiment_≤10": 0.15,
+      "forfait_batiment_>10": 0.25,
+      "reels": "Travaux d’entretien, gérance, assurances, charges PPE"
+    }
+  }
+}
