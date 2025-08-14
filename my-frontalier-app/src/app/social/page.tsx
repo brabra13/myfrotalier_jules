@@ -1,15 +1,16 @@
+'use client';
+
 import React from 'react';
+import LamalCmuSimulator from '@/components/social/LamalCmuSimulator';
 
 const SocialPage: React.FC = () => {
   return (
-    <div className="p-12">
-      <header className="section-header">
-        <h1 className="section-title font-display">Social</h1>
-        <p className="section-subtitle">Comparateurs et outils pour la protection sociale</p>
+    <div className="p-4 md:p-8 lg:p-12">
+      <header className="mb-12">
+        <h1 className="text-4xl font-bold text-gray-800">Social</h1>
+        <p className="mt-2 text-lg text-gray-600">Comparateurs et outils pour la protection sociale</p>
       </header>
-      <div className="bg-white p-8 rounded-lg shadow-md">
-        <p>La section Social sera implémentée ici.</p>
-      </div>
+      <LamalCmuSimulator />
     </div>
   );
 };

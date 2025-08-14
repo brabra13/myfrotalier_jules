@@ -42,11 +42,7 @@ interface ResultData {
   totalWorldIncome: number;
 }
 
-interface QuasiResidentSimulatorProps {
-  onBack: () => void;
-}
-
-const QuasiResidentSimulator: React.FC<QuasiResidentSimulatorProps> = ({ onBack }) => {
+const QuasiResidentSimulator = () => {
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState<FormData>({
     familyStatus: 'single',
@@ -90,15 +86,13 @@ const QuasiResidentSimulator: React.FC<QuasiResidentSimulatorProps> = ({ onBack 
     const currentCurrency = currencyStates[field];
     const newCurrency = currentCurrency === 'CHF' ? 'EUR' : 'CHF';
     const currentValue = parseFloat(formData[field as keyof FormData]) || 0;
-
-    // Determine the correct conversion rate
-    const conversionRate = newCurrency === 'EUR'
-      ? (currentCurrency === 'CHF' ? EXCHANGE_RATES.CHF_TO_EUR : 1)
-      : (currentCurrency === 'EUR' ? EXCHANGE_RATES.EUR_TO_CHF : 1);
+    const conversionRate = newCurrency === 'EUR' ? EXCHANGE_RATES.CHF_TO_EUR : EXCHANGE_RATES.EUR_TO_CHF;
 
     setCurrencyStates(prev => ({ ...prev, [field]: newCurrency }));
-
-    // No automatic conversion of the input value, just update the display
+    setFormData(prev => ({
+      ...prev,
+      [field]: (currentValue * conversionRate).toFixed(2),
+    }));
   };
 
   const convertedValue = (field: keyof FormData) => {
@@ -214,10 +208,10 @@ const QuasiResidentSimulator: React.FC<QuasiResidentSimulatorProps> = ({ onBack 
           id={field}
           value={formData[field]}
           onChange={handleChange}
-          className={`w-full pl-12 pr-16 py-2 border rounded-md ${errors[field] ? 'border-red-500' : 'border-gray-300'}`}
+          className={`w-full pl-10 pr-16 py-2 border rounded-md ${errors[field] ? 'border-red-500' : 'border-gray-300'}`}
         />
         <div className="absolute inset-y-0 right-0 flex items-center">
-          <button type="button" onClick={() => handleCurrencyToggle(field as keyof CurrencyStates)} className="px-3 py-1 text-sm bg-gray-200 rounded-r-md">
+          <button type="button" onClick={() => handleCurrencyToggle(field)} className="px-3 py-1 text-sm bg-gray-200 rounded-r-md">
             {currencyStates[field] === 'CHF' ? 'EUR' : 'CHF'}
           </button>
         </div>
@@ -336,65 +330,58 @@ const QuasiResidentSimulator: React.FC<QuasiResidentSimulatorProps> = ({ onBack 
   );
 
   return (
-    <div>
-        <div className="flex items-center mb-6">
-            <button onClick={onBack} className="p-2 rounded-full hover:bg-gray-200 transition-colors">
-                <FaArrowLeft className="h-5 w-5 text-gray-600" />
+    <div className="p-8 bg-white shadow-lg rounded-lg max-w-4xl mx-auto">
+        <div className="mb-8">
+            <h2 className="text-3xl font-bold text-gray-800">Vérification du Statut Quasi-Résident</h2>
+            <p className="text-gray-600 mt-2">Vérifiez votre éligibilité pour optimiser vos déductions fiscales.</p>
+        </div>
+
+      {step < 4 && (
+        <div className="mb-6">
+          <div className="flex justify-between items-center mb-1">
+            <p className="text-sm font-medium text-indigo-600">Étape {step} sur 3</p>
+            <p className="text-sm font-medium text-indigo-600">{Math.round(progress)}%</p>
+          </div>
+          <div className="overflow-hidden h-2 text-xs flex rounded bg-indigo-200">
+            <div style={{ width: `${progress}%` }} className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-indigo-500 transition-all duration-500"></div>
+          </div>
+        </div>
+      )}
+
+      <div className="min-h-[250px]">
+        {renderStepContent()}
+      </div>
+
+      <div className="mt-8 pt-5 border-t border-gray-200 flex justify-between items-center">
+        <div>
+          {step > 1 && (
+            <button onClick={handlePrevStep} className="inline-flex items-center px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300 transition">
+              <FaArrowLeft className="mr-2" />
+              Précédent
             </button>
-            <div className="ml-4">
-                <h2 className="text-2xl font-bold text-gray-800">Vérification du Statut Quasi-Résident</h2>
-                <p className="text-gray-600">Vérifiez votre éligibilité pour optimiser vos déductions fiscales.</p>
-            </div>
+          )}
         </div>
-
-        <div className="p-8 bg-white shadow-lg rounded-lg max-w-4xl mx-auto">
-            {step < 4 && (
-                <div className="mb-6">
-                <div className="flex justify-between items-center mb-1">
-                    <p className="text-sm font-medium text-indigo-600">Étape {step} sur 3</p>
-                    <p className="text-sm font-medium text-indigo-600">{Math.round(progress)}%</p>
-                </div>
-                <div className="overflow-hidden h-2 text-xs flex rounded bg-indigo-200">
-                    <div style={{ width: `${progress}%` }} className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-indigo-500 transition-all duration-500"></div>
-                </div>
-                </div>
-            )}
-
-            <div className="min-h-[250px]">
-                {renderStepContent()}
-            </div>
-
-            <div className="mt-8 pt-5 border-t border-gray-200 flex justify-between items-center">
-                <div>
-                {step > 1 && step < 4 && (
-                    <button onClick={handlePrevStep} className="inline-flex items-center px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300 transition">
-                    <FaArrowLeft className="mr-2" />
-                    Précédent
-                    </button>
-                )}
-                </div>
-                <div>
-                {step < 3 && (
-                    <button onClick={handleNextStep} className="inline-flex items-center px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition">
-                    Suivant
-                    <FaArrowRight className="ml-2" />
-                    </button>
-                )}
-                {step === 3 && (
-                    <button onClick={calculateEligibility} className="inline-flex items-center px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition">
-                    <FaCalculator className="mr-2" />
-                    Calculer l'éligibilité
-                    </button>
-                )}
-                {step === 4 && (
-                    <button onClick={startNewSimulation} className="inline-flex items-center px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition">
-                    <FaRedo className="mr-2" />
-                    Nouvelle Simulation
-                    </button>
-                )}
-                </div>
-            </div>
+        <div>
+          {step < 3 && (
+            <button onClick={handleNextStep} className="inline-flex items-center px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition">
+              Suivant
+              <FaArrowRight className="ml-2" />
+            </button>
+          )}
+          {step === 3 && (
+            <button onClick={calculateEligibility} className="inline-flex items-center px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition">
+              <FaCalculator className="mr-2" />
+              Calculer l'éligibilité
+            </button>
+          )}
+          {step === 4 && (
+            <button onClick={startNewSimulation} className="inline-flex items-center px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition">
+              <FaRedo className="mr-2" />
+              Nouvelle Simulation
+            </button>
+          )}
         </div>
+      </div>
     </div>
   );
 };
